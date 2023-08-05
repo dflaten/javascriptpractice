@@ -1,0 +1,23 @@
+{
+  "name": "javascriptpractice",
+  "version": "1.0.0",
+  "description": "## Description This repository will house the code I'm using to practice solving problems using javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/discocorg/javascriptpractice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/discocorg/javascriptpractice/issues"
+  },
+  "homepage": "https://github.com/discocorg/javascriptpractice#readme",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
+}
