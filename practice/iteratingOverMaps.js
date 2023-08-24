@@ -61,3 +61,10 @@ const answer = [...names]
 console.log("\n")
 console.log("Filtered Names: ")
 console.log(answer);
+
+const filteredName = [...names] 
+                // Filter here is taking a function as input
+                // this function has the array as an input and 
+                // then filters based on that input.
+                .filter((k) => k[1] == 'Anne')
+console.log(filteredName);
