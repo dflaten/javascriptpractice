@@ -13,3 +13,30 @@ const team = [
 ];
 
 console.log(team.filter((name) => name.match(/Dav/)));
+console.log('-----------------')
+
+const instructors = [
+    {
+        name: 'Jim',
+        libraries: ['MERIT'],
+    },
+    {
+        name: 'Sarah',
+        libraries: ['Memorial', 'SLIS'],
+    },
+    {
+        name: 'Eliot',
+        libraries: ['College Library'],
+    },
+];
+
+const librarian = instructors.find(instructor => {
+    return instructor.libraries.includes('Memorial');
+});
+//Using currying to reduce the number of arguments down to one
+const findByLibrary = library => instructor => {
+    return instructor.libraries.includes(library);
+}
+console.log('-----------------')
+console.log(librarian);
+console.log(instructors.find(findByLibrary('College Library')));
