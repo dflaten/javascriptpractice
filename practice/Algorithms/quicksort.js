@@ -1,10 +1,12 @@
-let numbersToSort = [100, 1, 2, 23, 54, 231, 17, 6, 19, 34];
+let numbersToSort = [100, 1, 2, 23, 54,231, 17, 6, 19, 34];
  
-function quickSort(sortMe, size) {
+function quickSort(sortMe) {
+   const size = sortMe.length;
    if (size < 2) {
     return;
    }
 
+   // The middle item in the array is used as the pivot point.
    const mid = Math.floor(size / 2);
    let leftHalf = [];
    let rightHalf = [];
@@ -22,7 +24,16 @@ function quickSort(sortMe, size) {
    merge(sortMe, leftHalf, rightHalf, mid, size-mid);
 }
 
+// This function will always produce a sorted sortMe array and because we
+// are calling quickSort on every half of the array until we get down to 
+// 1 item that means by the time we start merging we are merging sorted
+// halves. 
 function merge(sortMe, leftHalf, rightHalf, leftSize, rightSize) {
+    console.log("----------")
+    console.log("SortMe: " + sortMe);
+    console.log("Merge Left Half:" + leftHalf);
+    console.log("Merge Right Half:" + rightHalf);
+    console.log("----------")
    leftIterator = 0;
    rightIterator = 0;
    sortMeIterator = 0;
@@ -50,7 +61,11 @@ function merge(sortMe, leftHalf, rightHalf, leftSize, rightSize) {
         sortMeIterator++;
         rightIterator++;
     }
+    console.log('++++++++++')
+    console.log("SortMe: " + sortMe);
+    console.log('++++++++++')
 }
 console.log("Before Sorting: " + numbersToSort);
-quickSort(numbersToSort, 10);
+quickSort(numbersToSort);
 console.log("After Sorting: " + numbersToSort);
+console.log("--------");
