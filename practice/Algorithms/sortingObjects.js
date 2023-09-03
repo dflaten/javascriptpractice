@@ -34,5 +34,9 @@ function compareEmployees(a,b) {
 
 console.log("Employees before sorting"); 
 console.log(employees);
+console.log("Employees after sorting. Original Array not impacted.:"); 
+console.log([...employees].sort(compareEmployees));
+console.log("Original List"); 
+console.log(employees);
 console.log("Employees after sorting"); 
 console.log(employees.sort(compareEmployees));
