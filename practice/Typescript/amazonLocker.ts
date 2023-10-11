@@ -41,7 +41,7 @@ class DropOffLocation {
      * @returns true if able to place package, false otherwise. 
      */
     public placeParcel(parcel: Parcel): boolean {
-                // Attempt to match parcel to same size locker
+        // Attempt to match parcel to same size locker
         let assigned = this.assignPackageToLocker(parcel, parcel.size);
 
         // If not assigned, try larger lockers
@@ -53,19 +53,17 @@ class DropOffLocation {
         } else {
             return true;
         }
-        // Throw error if no empty lockers available
         return false;
     }
-    //Ideally O(1)
     /**
-     * Retrieves parcel for the given parcel id. Returns a default package if 
+     * Retrieves parcel for the given parcel id. Returns null if 
      * package was not available.
      * @param parcelId 
      * @returns Parcel 
      */
-    public retrieveParcel(parcelId: string): Parcel {
+    public retrieveParcel(parcelId: string): Parcel | null{
         //Will return a "default object if the parcel is not in the locker."
-        return  this.fullLockers.get(parcelId)?.parcel ?? new Parcel("default", Size.Small);
+        return  this.fullLockers.get(parcelId)?.parcel ?? null;
     }
 
     private assignPackageToLocker(parcel: Parcel, size: Size) {
