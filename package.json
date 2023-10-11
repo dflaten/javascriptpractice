@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/discocorg/javascriptpractice#readme",
   "devDependencies": {
-    "jest": "^29.6.2"
+    "jest": "^29.6.2",
+    "typescript": "^5.2.2"
   }
 }
