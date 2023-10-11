@@ -72,11 +72,12 @@ class Locker {
     id: string;
     locationId: string;
     size: Size;
-    parcel: Parcel;
+    parcel?: Parcel;
 
-    constructor (id: string, size: Size) {
+    constructor (id: string, size: Size, locationId: string) {
         this.id = id;
         this.size = size;
+        this.locationId = locationId;
     }
     
 }
@@ -84,8 +85,8 @@ class Locker {
 class Parcel {
     id: string;
     size: Size;
-    locationId: string;
-    lockerId: string;
+    locationId?: string;
+    lockerId?: string;
 
     constructor(id: string, size:Size) {
         this.id = id;
@@ -98,6 +99,10 @@ class Customer {
     id: string;
     //List of Parcels, each parcel has a location on it
     parcels: Parcel[];
+    constructor(id: string) {
+        this.id = id;
+        this.parcels = [];
+    }
 }
 
 class ParcelDropOffManager {
@@ -117,18 +122,20 @@ class ParcelDropOffManager {
 
 }
 
-const locker1 = new Locker("a123", Size.Small);
-const locker2 = new Locker("a124", Size.Small);
-const locker3 = new Locker("a125", Size.Medium);
-const locker4 = new Locker("a126", Size.Medium);
-const locker5 = new Locker("a127", Size.Large);
-const locker6 = new Locker("a128", Size.Large);
+const myLocationId = "123";
+
+const locker1 = new Locker("a123", Size.Small, myLocationId);
+const locker2 = new Locker("a124", Size.Small, myLocationId);
+const locker3 = new Locker("a125", Size.Medium, myLocationId);
+const locker4 = new Locker("a126", Size.Medium, myLocationId);
+const locker5 = new Locker("a127", Size.Large, myLocationId);
+const locker6 = new Locker("a128", Size.Large, myLocationId);
 
 const smallLockers = [locker1, locker2];
 const mediumLockers = [locker3, locker4];
 const largeLockers = [locker5, locker6];
 
-const myLocation = new DropOffLocation("123", new Map([
+const myLocation = new DropOffLocation(myLocationId, new Map([
         [Size.Small, smallLockers],
         [Size.Medium, mediumLockers],
         [Size.Large, largeLockers] 
