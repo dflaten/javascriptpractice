@@ -24,8 +24,8 @@ enum Size {
 class DropOffLocation {
 
     id: string;
-    allLockersFull: boolean
-    openLockers: Map<Size, Locker[]>
+    allLockersFull: boolean;
+    openLockers: Map<Size, Locker[]>;
     fullLockers: Map<string, Locker>;
 
     constructor (id: string, lockers: Map<Size, Locker[]>) {
@@ -34,37 +34,50 @@ class DropOffLocation {
         this.openLockers = lockers; 
         this.fullLockers = new Map<string, Locker>();
     }
-    //Ideally O(1)
-    public placeParcel(parcel: Parcel) {
-        //Attempt to match parcel to same size locker
-        const locker = this.openLockers.get(parcel.size)?.shift();
-        if (locker) {
-            return this.assignPackageToLocker(parcel, locker);
-        }
-        //Iterate through the sizes for every size that is greater than
-        //the package size attempt to place the package.
-        Object.keys(Size).forEach((key, index) => {
-            if(Size[key] > parcel.size) {
-                const largerLocker = this.openLockers.get(Size[key])?.shift();
-                if (largerLocker) {
-                    return this.assignPackageToLocker(parcel, largerLocker);
-                }
+    /**
+     * Places a parcel at the DropOffLocation if a spot that 
+     * will fit the package is available.  
+     * @param parcel 
+     * @returns true if able to place package, false otherwise. 
+     */
+    public placeParcel(parcel: Parcel): boolean {
+                // Attempt to match parcel to same size locker
+        let assigned = this.assignPackageToLocker(parcel, parcel.size);
+
+        // If not assigned, try larger lockers
+        if (!assigned) {
+            for (let size = parcel.size + 1; size <= Size.Large; size++) {
+                assigned = this.assignPackageToLocker(parcel, size);
+                if (assigned) return true;
             }
-        });
-        //Throw error if no empty lockers available
-        return null;
+        } else {
+            return true;
+        }
+        // Throw error if no empty lockers available
+        return false;
     }
     //Ideally O(1)
+    /**
+     * Retrieves parcel for the given parcel id. Returns a default package if 
+     * package was not available.
+     * @param parcelId 
+     * @returns Parcel 
+     */
     public retrieveParcel(parcelId: string): Parcel {
         //Will return a "default object if the parcel is not in the locker."
         return  this.fullLockers.get(parcelId)?.parcel ?? new Parcel("default", Size.Small);
     }
 
-    private assignPackageToLocker(parcel: Parcel, locker: Locker) {
-        parcel.lockerId = locker.id;
-        parcel.locationId = locker.locationId;
-        locker.parcel = parcel;
-        this.fullLockers.set(locker.locationId, locker);
+    private assignPackageToLocker(parcel: Parcel, size: Size) {
+        const locker = this.openLockers.get(size)?.shift();
+        if (locker) {
+            parcel.lockerId = locker.id;
+            parcel.locationId = this.id;
+            locker.parcel = parcel;
+            this.fullLockers.set(parcel.id, locker);
+            return true;
+        }
+        return false;
     }
 }
 
@@ -153,5 +166,5 @@ const myPackage7 = new Parcel("a1234", Size.Small);
 const myPackage8 = new Parcel("a1234", Size.Small);
 console.log("Adding Package to locker...")
 manager.addParcel("Fargo", myPackage); 
-console.log("Retrieving Package from locker... " + manager.retrievePackage("Fargo", "a123"));
+console.log("Retrieving Package from locker... " + JSON.stringify(manager.retrievePackage("Fargo", "a123")));
 

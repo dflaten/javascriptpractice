@@ -29,25 +29,21 @@ class DropOffLocation {
     }
     //Ideally O(1)
     placeParcel(parcel) {
-        var _a;
-        //Attempt to match parcel to same size locker
-        const locker = (_a = this.openLockers.get(parcel.size)) === null || _a === void 0 ? void 0 : _a.shift();
-        if (locker) {
-            return this.assignPackageToLocker(parcel, locker);
-        }
-        //Iterate through the sizes for every size that is greater than
-        //the package size attempt to place the package.
-        Object.keys(Size).forEach((key, index) => {
-            var _a;
-            if (Size[key] > parcel.size) {
-                const largerLocker = (_a = this.openLockers.get(Size[key])) === null || _a === void 0 ? void 0 : _a.shift();
-                if (largerLocker) {
-                    return this.assignPackageToLocker(parcel, largerLocker);
-                }
+        // Attempt to match parcel to same size locker
+        let assigned = this.assignPackageToLocker(parcel, parcel.size);
+        // If not assigned, try larger lockers
+        if (!assigned) {
+            for (let size = parcel.size + 1; size <= Size.Large; size++) {
+                assigned = this.assignPackageToLocker(parcel, size);
+                if (assigned)
+                    return true;
             }
-        });
-        //Throw error if no empty lockers available
-        return null;
+        }
+        else {
+            return true;
+        }
+        // Throw error if no empty lockers available
+        return false;
     }
     //Ideally O(1)
     retrieveParcel(parcelId) {
@@ -55,11 +51,17 @@ class DropOffLocation {
         //Will return a "default object if the parcel is not in the locker."
         return (_b = (_a = this.fullLockers.get(parcelId)) === null || _a === void 0 ? void 0 : _a.parcel) !== null && _b !== void 0 ? _b : new Parcel("default", Size.Small);
     }
-    assignPackageToLocker(parcel, locker) {
-        parcel.lockerId = locker.id;
-        parcel.locationId = locker.locationId;
-        locker.parcel = parcel;
-        this.fullLockers.set(locker.locationId, locker);
+    assignPackageToLocker(parcel, size) {
+        var _a;
+        const locker = (_a = this.openLockers.get(size)) === null || _a === void 0 ? void 0 : _a.shift();
+        if (locker) {
+            parcel.lockerId = locker.id;
+            parcel.locationId = this.id;
+            locker.parcel = parcel;
+            this.fullLockers.set(parcel.id, locker);
+            return true;
+        }
+        return false;
     }
 }
 class Locker {
