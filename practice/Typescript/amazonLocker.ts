@@ -58,6 +58,8 @@ class DropOffLocation {
     /**
      * Retrieves parcel for the given parcel id. Returns null if 
      * package was not available.
+     * TODO: Method needs to be updated to make sure full and empty
+     * maps are updated upon parcel retrieval.
      * @param parcelId 
      * @returns Parcel 
      */
