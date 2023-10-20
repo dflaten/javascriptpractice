@@ -35,3 +35,5 @@ async function main() {
 }
 
 main().catch((error) => console.log(error));
+exports.retry = retry;
+exports.fetchData = fetchData;

@@ -1,4 +1,4 @@
-const {retryFunction, fetchData} = require('../practice/automaticRetry');
+const {retry, fetchData} = require('../practice/automaticRetry');
 
 const SUCCESSFUL_RESULT = 'Success';
 describe('Test retry function', () => {
@@ -9,7 +9,7 @@ describe('Test retry function', () => {
     });
 
     it('Returns result when fetch data succeeds', async () => {
-        const result = await retryFunction(successfulFetchData);
+        const result = await retry(successfulFetchData);
         expect(result).toBe(SUCCESSFUL_RESULT);
     });
 });
