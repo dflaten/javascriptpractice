@@ -10,6 +10,7 @@ async function retry(inputFunction) {
         try {
             attempts++;
             result = inputFunction()
+            return result;
         } catch (error) {
             console.log("Error occurred during attempt, " + attempts + 
             " error message: " + error);
